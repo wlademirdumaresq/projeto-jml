@@ -3,8 +3,8 @@ package br.edu.imd.edb.application;
 import java.io.IOException;
 
 public class Main {
-	//compress projeto/arquivosAntigos/teste1.txt  projeto/arquivosBinarios/teste1.edz  projeto/chaves/teste1.edt
-	//extract projeto/arquivosBinarios/teste1.edz projeto/chaves/teste1.edt projeto/arquivosNovos/teste1.txt
+	//compress arquivosAntigos/teste1.txt  arquivosBinarios/teste1.edz  chaves/teste1.edt
+	//extract arquivosBinarios/teste1.edz chaves/teste1.edt arquivosNovos/teste1.txt
 
     public static void main(String[] args) throws IOException {
 
