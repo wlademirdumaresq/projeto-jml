@@ -5,11 +5,11 @@ import br.edu.imd.edb.entities.Char;
 public class Node {
 
 
-    private Char value;
-    private Node left;
-    private Node right;
-    private Integer bit;
-    private String pathBit;
+    private /*@ spec_public nullable @*/ Char value;
+    private /*@ spec_public nullable @*/ Node left;
+    private /*@ spec_public nullable @*/ Node right;
+    private /*@ spec_public nullable @*/ Integer bit;
+    private /*@ spec_public nullable @*/ String pathBit;
 
     public Integer getBit() {
         return bit;
@@ -20,22 +20,27 @@ public class Node {
     }
 
 //construtores
-
+    /*@
+	@ assignable value, left, right;
+	@*/
     public Node() {
 
         this.value = null;
         this.left = null;
         this.right = null;
     }
-
-
+    /*@
+      @ assignable value, left, right;
+      @*/
     public Node(Integer c, Integer x) {
         this.value = new Char(c, x);
         this.left = null;
         this.right = null;
     }
 
-
+    /*@
+      @ assignable value, left, right, bit;
+      @*/
     public Node(Integer x, Node left, Node right) {
         this.value = new Char(x);
         this.left = left;
@@ -51,6 +56,8 @@ public class Node {
     public Char getValue() {
         return value;
     }
+
+
 
     public void setValue(Char value) {
         this.value = value;
