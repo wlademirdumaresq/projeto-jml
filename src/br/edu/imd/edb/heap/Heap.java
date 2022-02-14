@@ -55,11 +55,19 @@ public class Heap {
         }
     }
 
+    /*@
+      @ pure;
+      @ ensures \result == (int) Math.floor((index - 1) / 2);
+      @*/
     public int getParentIndex(int index) {
 
         return (int) Math.floor((index - 1) / 2);
     }
 
+    /*@
+      @ assignable node, capacity;
+      @ ensures size != capacity;
+      @*/
     private void ensureCapacity() {
         if (size == capacity) {
             node = Arrays.copyOf(node, capacity * 2);
@@ -67,11 +75,18 @@ public class Heap {
         }
     }
 
+    /*@
+      @ pure;
+      @ ensures \result == size;
+      @*/
     public int getSize() {
 
         return size;
     }
 
+    /*@
+      @ ensures \result == node[0] || \result == null;
+      @*/
     public Node peek() {
         if (getSize() == 0) {
             return null;
@@ -79,6 +94,11 @@ public class Heap {
         return node[0];
     }
 
+    /*@
+      @ assignable size;
+      @ ensures size == \old(size) - 1;
+      @ ensures node[0] == node[size];
+      @*/
     public void remove() {
         node[0] = node[getSize() - 1];
         node[getSize() - 1] = null;
@@ -86,6 +106,10 @@ public class Heap {
         heapifyDown(0);
     }
 
+    /*@
+      @ requires index >= 0;
+      @ assignable node[index];
+      @*/
     private void heapifyDown(int index) {
         int leftChild = index * 2 + 1;
         int rightChild = index * 2 + 2;
