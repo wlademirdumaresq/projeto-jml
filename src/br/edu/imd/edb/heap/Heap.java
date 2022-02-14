@@ -6,16 +6,30 @@ import br.edu.imd.edb.tree.Node;
 import java.util.Arrays;
 
 public class Heap {
-    private Node[] node;
-    private int size;
-    private int capacity;
+    private /*@ spec_public @*/ Node[] node;
+    private /*@ spec_public @*/ int size;
+    private /*@ spec_public @*/ int capacity;
 
+    /*@ public invariant size >=0;
+      @ public invariant capacity >=0;
+      @*/
+
+    /*@
+      @ assignable this.capacity, this.size, node;
+      @ ensures this.capacity == 10;
+      @ ensures this.size == 0;
+      @ ensures node != null;
+      @*/
     public Heap() {
         this.capacity = 10;
         this.size = 0;
         node = new Node[capacity];
     }
 
+    /*@ requires no != null;
+      @ assignable node[getSize()], size;
+      @ ensures size == \old(size) + 1;
+      @*/
     public void insert(Node no) {
         ensureCapacity();
         node[getSize()] = no;
@@ -23,6 +37,7 @@ public class Heap {
         size++;
     }
 
+    /*@ requires index >= 0; @*/
     private void heapifyUp(int index) {
         int parentIndex = getParentIndex(index);
 
