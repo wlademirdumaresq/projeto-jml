@@ -1,5 +1,7 @@
 package br.edu.imd.edb.entities;
 
+import br.edu.imd.edb.heap.Heap;
+
 public class Char {
     private Integer character;
     private Integer quantitie;
