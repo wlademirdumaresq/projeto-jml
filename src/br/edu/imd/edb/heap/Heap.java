@@ -12,6 +12,7 @@ public class Heap {
 
     /*@ public invariant size >=0;
       @ public invariant capacity >=0;
+      @ public invariant node != null;
       @*/
 
     /*@
