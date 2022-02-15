@@ -12,16 +12,24 @@ import static br.edu.imd.edb.util.TBinary.LBinary;
 
 public class Compressor {
 
-    private int tamanhoAntigo;
-    private int tamanhoTabela;
-    private int tamanhoCodificado;
-    private Heap heap = new Heap();
-    private Map<Integer, Integer> map = new HashMap<>();
-    private boolean chave = true;
-    private Node tree = new Node();
-    private Map<Character, String> binari = new HashMap<>();
-    private String texto, mensagem, dicionario;
+    private /*@ spec_public @*/ int tamanhoAntigo;
+    private /*@ spec_public @*/ int tamanhoTabela;
+    private /*@ spec_public @*/ int tamanhoCodificado;
+    private /*@ spec_public @*/ Heap heap = new Heap();
+    private /*@ spec_public @*/ Map<Integer, Integer> map = new HashMap<>();
+    private /*@ spec_public @*/ boolean chave = true;
+    private /*@ spec_public @*/ Node tree = new Node();
+    private /*@ spec_public @*/ Map<Character, String> binari = new HashMap<>();
+    private /*@ spec_public @*/ String texto, mensagem, dicionario;
 
+
+    /*@
+      @	requires texto != null && mensagem != null && dicionario != null;
+      @ assignable this.texto, this.mensagem, this.dicionario, tamanhoAntigo, tamanhoTabela,tamanhoCodificado,heap,map,tree,binari,chave;
+      @ ensures this.texto == texto;
+      @ ensures this.mensagem == mensagem;
+      @ ensures this.dicionario == dicionario;
+      @*/
     public Compressor(String texto, String mensagem, String dicionario) throws IOException {
         this.texto = texto;
         this.mensagem = mensagem;
@@ -31,36 +39,34 @@ public class Compressor {
         criandoTabela();
         codificandoTexto();
     }
-    public Compressor(String texto) throws IOException {
-        this.texto = texto;
-        this.mensagem = null;
-        this.dicionario = null;
-        criarDicionario();
-        criandoArvore();
-    }
-    public Compressor(String texto, String dicionario) throws IOException {
-        this.texto = texto;
-        this.mensagem = null;
-        this.dicionario = dicionario;
-        criarDicionario();
-        criandoArvore();
-        criandoTabela();
 
-    }
-
+    /*@ pure;
+      @ ensures \result == binari;
+      @ */
     public Map<Character, String> getBinari() {
         return binari;
     }
 
+    /*@ pure;
+      @ ensures \result == tree;
+      @ */
     public Node getTree() {
         return tree;
     }
 
+    /*@ pure;
+      @ ensures \result == map;
+      @ */
     public Map<Integer, Integer> getMap() {
         return map;
     }
 
-    public void  criarDicionario() {
+
+    /*@
+      @ requires texto != null;
+      @ assignable linha[], leitor;
+      @*/
+    public void criarDicionario() {
 
         try {
             FileInputStream arq = new FileInputStream(texto);
@@ -79,7 +85,7 @@ public class Compressor {
                     map.put((int) arquivo.charAt(i), 1);
                 }
             }
-            
+
             leitor.close();
 
         } catch (IOException e) {
@@ -90,7 +96,12 @@ public class Compressor {
 
     }
 
-    public void criandoArvore()  {
+    /*@
+      @ requires map != null;
+      @ assignable left, right, tree;
+      @*/
+
+    public void criandoArvore() {
         for (Integer i : map.keySet()) {
             Node no = new Node(i, map.get(i));
             heap.insert(no);
@@ -112,6 +123,13 @@ public class Compressor {
 
     }
 
+
+    /*@
+     @ requires tree != null;
+     @ requires chave != null;
+     @ requires dicionario != null;
+     @ assignable tamanhoTabela, tabelaCod;
+     @*/
     public void criandoTabela() throws IOException {
         String bit[] = LBinary(tree, chave);
 
@@ -129,6 +147,12 @@ public class Compressor {
 
     }
 
+
+    /*@
+     @ requires mensagem != null;
+     @ requires texto != null;
+     @ assignable contador, arquivo, texto[], bitSet, bits, b, arq, multiplicacao, tamanhoCodificado;
+     @*/
     public void codificandoTexto() throws IOException {
         FileOutputStream b = new FileOutputStream(mensagem);
         FileInputStream arq = new FileInputStream(texto);
@@ -188,7 +212,7 @@ public class Compressor {
         }
 
         tamanhoCodificado = (bits.length()) / 8;
-        System.out.println(100.0 - (((float) (tamanhoCodificado + tamanhoTabela) * 100) / tamanhoAntigo )+ "% compactação");
+        System.out.println(100.0 - (((float) (tamanhoCodificado + tamanhoTabela) * 100) / tamanhoAntigo) + "% compactação");
     }
 
 }
