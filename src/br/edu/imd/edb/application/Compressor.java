@@ -64,7 +64,7 @@ public class Compressor {
 
     /*@
       @ requires texto != null;
-      @ assignable linha[], leitor;
+      @ assignable tamanhoAntigo, map;
       @*/
     public void criarDicionario() {
 
@@ -98,7 +98,7 @@ public class Compressor {
 
     /*@
       @ requires map != null;
-      @ assignable left, right, tree;
+      @ assignable heap, tree,chave;
       @*/
 
     public void criandoArvore() {
@@ -128,7 +128,7 @@ public class Compressor {
      @ requires tree != null;
      @ requires chave != null;
      @ requires dicionario != null;
-     @ assignable tamanhoTabela, tabelaCod;
+     @ assignable tamanhoTabela, tabelaCod,binari;
      @*/
     public void criandoTabela() throws IOException {
         String bit[] = LBinary(tree, chave);
@@ -151,7 +151,7 @@ public class Compressor {
     /*@
      @ requires mensagem != null;
      @ requires texto != null;
-     @ assignable contador, arquivo, texto[], bitSet, bits, b, arq, multiplicacao, tamanhoCodificado;
+     @ assignable binari, tamanhoCodificado;
      @*/
     public void codificandoTexto() throws IOException {
         FileOutputStream b = new FileOutputStream(mensagem);
