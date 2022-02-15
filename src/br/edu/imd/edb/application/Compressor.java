@@ -126,9 +126,8 @@ public class Compressor {
 
     /*@
      @ requires tree != null;
-     @ requires chave != null;
      @ requires dicionario != null;
-     @ assignable tamanhoTabela, tabelaCod,binari;
+     @ assignable tamanhoTabela,binari;
      @*/
     public void criandoTabela() throws IOException {
         String bit[] = LBinary(tree, chave);
