@@ -6,10 +6,17 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class Extractor {
-    private Map<String, Character> letra = new HashMap<>();
-    private Map<Character, String> codigo = new HashMap<>();
-    private String mensagem, mapa, traducao;
+    private /*@ spec_public @*/ Map<String, Character> letra = new HashMap<>();
+    private /*@ spec_public @*/ Map<Character, String> codigo = new HashMap<>();
+    private /*@ spec_public @*/ String mensagem, mapa, traducao;
 
+    /*@
+      @	requires mensagem != null && mapa != null && traducao != null; 
+      @ assignable this.mensagem, this.mapa, this.traducao, letra, codigo;
+      @ ensures this.mensagem == mensagem;
+      @ ensures this.mapa == mapa;
+      @ ensures this.traducao == traducao;
+      @*/
     public Extractor(String mensagem, String mapa, String traducao) throws IOException {
         this.mensagem = mensagem;
         this.mapa = mapa;
@@ -18,17 +25,28 @@ public class Extractor {
         descodificandoTexto();
     }
 
+    /*@
+      @	requires mapa != null; 
+      @ assignable this.mensagem, this.mapa, this.traducao, letra, codigo;
+      @ ensures this.mensagem == null;
+      @ ensures this.mapa == mapa;
+      @ ensures this.traducao == null;
+      @*/
     public Extractor(String mapa) throws IOException {
         this.mensagem = null;
         this.mapa = mapa;
         this.traducao = null;
         recuperandoTabela();
     }
-
-    public Map<Character, String> getCodigo() {
+    
+    public /*@ pure @*/ Map<Character, String> getCodigo() {
         return codigo;
     }
 
+    /*@
+      @ requires mapa != null;
+      @ assignable letra, codigo;
+      @*/
     public void recuperandoTabela() throws IOException {
         FileInputStream dicionario = new FileInputStream(mapa);
         byte linha[] = Files.readAllBytes(Paths.get(this.mapa));
@@ -44,7 +62,10 @@ public class Extractor {
         dicionario.close();
     }
 
-    public void descodificandoTexto() throws IOException {
+    /*@
+      @ requires mensagem != null && traducao != null;
+      @*/
+    public /*@ pure @*/ void descodificandoTexto() throws IOException {
         FileInputStream fs = new FileInputStream(mensagem);
 
         byte[] bytes = Files.readAllBytes(Paths.get(this.mensagem));

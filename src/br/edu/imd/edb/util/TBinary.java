@@ -4,8 +4,11 @@ import br.edu.imd.edb.tree.Node;
 
 public class TBinary {
 
-    private static String tableCode = "";
+    private static /*@ spec_public @*/ String tableCode = "";
 
+    /*@
+      @	assignable tableCode;
+      @*/
     public static String[] LBinary(Node no, boolean chave) {
         if( chave == true){
         tableCode = LBinary(no, "");
@@ -17,6 +20,9 @@ public class TBinary {
 
     }
 
+    /*@
+      @ assignable tableCode;
+      @*/
     private static String LBinary(Node no, String codigo) {
         if (no.getLeft() == no.getRight()) {
             tableCode+= no.getValue().getCharacter() + "=" + codigo + "=" ;
