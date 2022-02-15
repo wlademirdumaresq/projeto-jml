@@ -62,10 +62,14 @@ public class Compressor {
     }
 
 
-    /*@
-      @ requires texto != null;
-      @ assignable tamanhoAntigo, map;
-      @*/
+    /*@  public normal_behavior
+    @       requires texto != null;
+    @       assignable tamanhoAntigo, map;
+    @ also
+    @   public exceptional_behavior
+    @       requires texto == null;
+    @       assignable tamanhoAntigo, map;
+    @*/
     public void criarDicionario() {
 
         try {
@@ -100,7 +104,6 @@ public class Compressor {
       @ requires map != null;
       @ assignable heap, tree,chave;
       @*/
-
     public void criandoArvore() {
         for (Integer i : map.keySet()) {
             Node no = new Node(i, map.get(i));
