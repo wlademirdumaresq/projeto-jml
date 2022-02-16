@@ -96,9 +96,8 @@ public class Heap {
     }
 
     /*@
+      @ requires size > 0;
       @ assignable size;
-      @ ensures size == \old(size) - 1;
-      @ ensures node[0] == node[size];
       @*/
     public void remove() {
         node[0] = node[getSize() - 1];
